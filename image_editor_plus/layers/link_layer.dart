@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:image_editor_plus/data/layer.dart';
-import 'package:image_editor_plus/image_editor_plus.dart';
-import 'package:image_editor_plus/modules/emoji_layer_overlay.dart';
+import '../data/layer.dart';
+import '../image_editor_plus.dart';
+import '../modules/link_layer_overlay.dart';
 
-/// Emoji layer
-class EmojiLayer extends StatefulWidget {
-  final EmojiLayerData layerData;
+/// Link layer
+class LinkLayer extends StatefulWidget {
+  final LinkLayerData layerData;
   final VoidCallback? onUpdate;
   final bool editable;
 
-  const EmojiLayer({
+  const LinkLayer({
     super.key,
     required this.layerData,
-    this.onUpdate,
     this.editable = false,
+    this.onUpdate,
   });
-
   @override
-  createState() => _EmojiLayerState();
+  createState() => _TextViewState();
 }
 
-class _EmojiLayerState extends State<EmojiLayer> {
+class _TextViewState extends State<LinkLayer> {
   double initialSize = 0;
   double initialRotation = 0;
 
@@ -45,7 +44,7 @@ class _EmojiLayerState extends State<EmojiLayer> {
                   context: context,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return EmojiLayerOverlay(
+                    return LinkLayerOverlay(
                       index: layers.indexOf(widget.layerData),
                       layer: widget.layerData,
                       onUpdate: () {
@@ -65,10 +64,13 @@ class _EmojiLayerState extends State<EmojiLayer> {
                     widget.layerData.offset.dy + detail.focalPointDelta.dy,
                   );
                 } else if (detail.pointerCount == 2) {
-                  widget.layerData.size = initialSize +
-                      detail.scale * 5 * (detail.scale > 1 ? 1 : -1);
-                }
+                  widget.layerData.size =
+                      initialSize + detail.scale * (detail.scale > 1 ? 1 : -1);
 
+                  // print('angle');
+                  // print(detail.rotation);
+                  widget.layerData.rotation = detail.rotation;
+                }
                 setState(() {});
               }
             : null,
@@ -76,12 +78,32 @@ class _EmojiLayerState extends State<EmojiLayer> {
           angle: widget.layerData.rotation,
           child: Container(
             padding: const EdgeInsets.all(64),
-            child: Text(
-              widget.layerData.text.toString(),
-              style: TextStyle(
-                fontSize: widget.layerData.size,
-              ),
-            ),
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: widget.layerData.background
+                      .withOpacity(widget.layerData.backgroundOpacity),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(children: [
+                  Transform.rotate(
+                    angle: -0.4,
+                    child: Icon(
+                      Icons.link,
+                      color: widget.layerData.color,
+                      size: widget.layerData.size,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    widget.layerData.text.toString(),
+                    textAlign: widget.layerData.align,
+                    style: TextStyle(
+                      color: widget.layerData.color,
+                      fontSize: widget.layerData.size,
+                    ),
+                  ),
+                ])),
           ),
         ),
       ),

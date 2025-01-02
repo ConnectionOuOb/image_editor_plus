@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:image_editor_plus/data/layer.dart';
-import 'package:image_editor_plus/image_editor_plus.dart';
+import '../data/layer.dart';
+import '../image_editor_plus.dart';
 import 'colors_picker.dart';
 
-class LinkLayerOverlay extends StatefulWidget {
+class TextLayerOverlay extends StatefulWidget {
   final int index;
-  final LinkLayerData layer;
+  final TextLayerData layer;
   final Function onUpdate;
 
-  const LinkLayerOverlay({
+  const TextLayerOverlay({
     super.key,
     required this.layer,
     required this.index,
@@ -16,10 +16,10 @@ class LinkLayerOverlay extends StatefulWidget {
   });
 
   @override
-  createState() => _LinkLayerOverlayState();
+  createState() => _TextLayerOverlayState();
 }
 
-class _LinkLayerOverlayState extends State<LinkLayerOverlay> {
+class _TextLayerOverlayState extends State<TextLayerOverlay> {
   double slider = 0.0;
 
   @override
@@ -83,7 +83,7 @@ class _LinkLayerOverlayState extends State<LinkLayerOverlay> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      widget.layer.backgroundOpacity = 0;
+                      widget.layer.backgroundOpacity = 0.5;
                       widget.onUpdate();
                     });
                   },
@@ -154,6 +154,7 @@ class _LinkLayerOverlayState extends State<LinkLayerOverlay> {
                         if (widget.layer.backgroundOpacity == 0) {
                           widget.layer.backgroundOpacity = 0.5;
                         }
+
                         widget.onUpdate();
                       });
                     },
@@ -202,7 +203,7 @@ class _LinkLayerOverlayState extends State<LinkLayerOverlay> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      widget.layer.backgroundOpacity = 0.5;
+                      widget.layer.backgroundOpacity = 0;
                       widget.onUpdate();
                     });
                   },

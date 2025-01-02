@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:image_editor_plus/data/layer.dart';
-import 'package:image_editor_plus/image_editor_plus.dart';
-import 'package:image_editor_plus/modules/emoji_layer_overlay.dart';
-import 'package:image_editor_plus/modules/image_layer_overlay.dart';
-import 'package:image_editor_plus/modules/text_layer_overlay.dart';
+import '../data/layer.dart';
+import '../image_editor_plus.dart';
+import '../modules/emoji_layer_overlay.dart';
+import '../modules/image_layer_overlay.dart';
+import '../modules/text_layer_overlay.dart';
 import 'package:reorderables/reorderables.dart';
 
 class ManageLayersOverlay extends StatefulWidget {

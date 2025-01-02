@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:image_editor_plus/data/layer.dart';
-import 'package:image_editor_plus/image_editor_plus.dart';
-import 'package:image_editor_plus/modules/link_layer_overlay.dart';
+import '../data/layer.dart';
+import '../image_editor_plus.dart';
+import '../modules/emoji_layer_overlay.dart';
 
-/// Link layer
-class LinkLayer extends StatefulWidget {
-  final LinkLayerData layerData;
+/// Emoji layer
+class EmojiLayer extends StatefulWidget {
+  final EmojiLayerData layerData;
   final VoidCallback? onUpdate;
   final bool editable;
 
-  const LinkLayer({
+  const EmojiLayer({
     super.key,
     required this.layerData,
-    this.editable = false,
     this.onUpdate,
+    this.editable = false,
   });
+
   @override
-  createState() => _TextViewState();
+  createState() => _EmojiLayerState();
 }
 
-class _TextViewState extends State<LinkLayer> {
+class _EmojiLayerState extends State<EmojiLayer> {
   double initialSize = 0;
   double initialRotation = 0;
 
@@ -44,7 +45,7 @@ class _TextViewState extends State<LinkLayer> {
                   context: context,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return LinkLayerOverlay(
+                    return EmojiLayerOverlay(
                       index: layers.indexOf(widget.layerData),
                       layer: widget.layerData,
                       onUpdate: () {
@@ -64,13 +65,10 @@ class _TextViewState extends State<LinkLayer> {
                     widget.layerData.offset.dy + detail.focalPointDelta.dy,
                   );
                 } else if (detail.pointerCount == 2) {
-                  widget.layerData.size =
-                      initialSize + detail.scale * (detail.scale > 1 ? 1 : -1);
-
-                  // print('angle');
-                  // print(detail.rotation);
-                  widget.layerData.rotation = detail.rotation;
+                  widget.layerData.size = initialSize +
+                      detail.scale * 5 * (detail.scale > 1 ? 1 : -1);
                 }
+
                 setState(() {});
               }
             : null,
@@ -78,32 +76,12 @@ class _TextViewState extends State<LinkLayer> {
           angle: widget.layerData.rotation,
           child: Container(
             padding: const EdgeInsets.all(64),
-            child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: widget.layerData.background
-                      .withOpacity(widget.layerData.backgroundOpacity),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(children: [
-                  Transform.rotate(
-                    angle: -0.4,
-                    child: Icon(
-                      Icons.link,
-                      color: widget.layerData.color,
-                      size: widget.layerData.size,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    widget.layerData.text.toString(),
-                    textAlign: widget.layerData.align,
-                    style: TextStyle(
-                      color: widget.layerData.color,
-                      fontSize: widget.layerData.size,
-                    ),
-                  ),
-                ])),
+            child: Text(
+              widget.layerData.text.toString(),
+              style: TextStyle(
+                fontSize: widget.layerData.size,
+              ),
+            ),
           ),
         ),
       ),
