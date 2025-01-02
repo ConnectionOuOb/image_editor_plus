@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:image_editor_plus/data/layer.dart';
-import 'package:image_editor_plus/image_editor_plus.dart';
+import '../data/layer.dart';
+import '../image_editor_plus.dart';
 
-class ImageLayerOverlay extends StatefulWidget {
+class EmojiLayerOverlay extends StatefulWidget {
   final int index;
-  final ImageLayerData layerData;
+  final EmojiLayerData layer;
   final Function onUpdate;
 
-  const ImageLayerOverlay({
+  const EmojiLayerOverlay({
     super.key,
-    required this.layerData,
+    required this.layer,
     required this.index,
     required this.onUpdate,
   });
 
   @override
-  createState() => _ImageLayerOverlayState();
+  createState() => _EmojiLayerOverlayState();
 }
 
-class _ImageLayerOverlayState extends State<ImageLayerOverlay> {
+class _EmojiLayerOverlayState extends State<EmojiLayerOverlay> {
   double slider = 0.0;
 
   @override
@@ -49,13 +49,12 @@ class _ImageLayerOverlayState extends State<ImageLayerOverlay> {
           Slider(
               activeColor: Colors.white,
               inactiveColor: Colors.grey,
-              value: widget.layerData.scale,
-              min: 0,
-              max: 2,
-              divisions: 100,
+              value: widget.layer.size,
+              min: 0.0,
+              max: 100.0,
               onChangeEnd: (v) {
                 setState(() {
-                  widget.layerData.scale = v.toDouble();
+                  widget.layer.size = v.toDouble();
                   widget.onUpdate();
                 });
               },
@@ -63,7 +62,7 @@ class _ImageLayerOverlayState extends State<ImageLayerOverlay> {
                 setState(() {
                   slider = v;
                   // print(v.toDouble());
-                  widget.layerData.scale = v.toDouble();
+                  widget.layer.size = v.toDouble();
                   widget.onUpdate();
                 });
               }),

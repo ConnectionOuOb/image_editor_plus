@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_editor_plus/data/layer.dart';
-import 'package:image_editor_plus/image_editor_plus.dart';
+import '../data/layer.dart';
+import '../image_editor_plus.dart';
 
 class LinkEditorImage extends StatefulWidget {
   const LinkEditorImage({super.key});
